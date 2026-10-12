@@ -26,6 +26,9 @@ form input {
 button:hover {
     background-color: lightblue;
 }
+button.selected {
+    background-color: lightgreen;
+}
 input:focus {
     outline: 2px solid #0056b3;
 }
