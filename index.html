@@ -33,7 +33,8 @@
             <button type="button" data-r="5">5</button>
         </fieldset>
         <label for="y">Координата Y</label>
-        <input type="text" id="y" name="y" required>
+        <p id="y-hint">Введите число больше -5 и меньше 5</p>
+        <input aria-describedby="y-hint" type="text" id="y" name="y" required>
         <button type="submit">Проверить</button>
     </form>
 </main>
