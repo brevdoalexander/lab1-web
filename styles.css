@@ -164,3 +164,17 @@ tbody > tr:nth-child(even) {
 tbody > tr:hover {
     background-color: #eff6ff;
 }
+
+.x-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.x-options > label {
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    margin: 4px;
+}

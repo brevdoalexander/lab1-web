@@ -1,16 +1,10 @@
 let selectedX = null;
 let results = [];
-const xButtons = document.querySelectorAll('[data-x]');
-for (const button of xButtons) {
-   button.addEventListener('click', function () {
-           selectedX = Number(button.dataset.x);
-
-           for (const otherButton of xButtons) {
-               otherButton.classList.remove('selected');
-           }
-
-           button.classList.add('selected');
-       });
+const xInputs = document.querySelectorAll('input[name="x"]');
+for (const input of xInputs) {
+   input.addEventListener('change', function () {
+           selectedX = Number(input.value);
+   });
 }
 let selectedR = null;
 const rButtons = document.querySelectorAll('[data-r]');
@@ -35,12 +29,14 @@ form.addEventListener('submit', function (event) {
     }
     const rawY = yInput.value.trim();
     const y = Number(rawY);
-    if ((rawY === "") || (!Number.isFinite(y)) || (y <= -5) || (y >= 5)) {
-        alert("Y должен быть больше -5 и меньше 5");
+    if ((rawY === "") || (!Number.isFinite(y)) || (y <= -5) || (y >= 3)) {
+        alert("Y должен быть больше -5 и меньше 3");
         yInput.focus();
         return;
     }
     const hit = isHit(selectedX, y, selectedR);
+    drawPlot();
+    drawPoint(selectedX, y, selectedR, hit);
     const timestamp = Date.now();
     const result = {
         x: selectedX,
@@ -55,9 +51,9 @@ form.addEventListener('submit', function (event) {
     console.log(selectedX, y, selectedR, hit);
 });
 function isHit(x, y, r) {
-    const inTriangle = ((x >= 0) && (y >= 0) && ((x+y) <= r));
-    const inRectangle = (((-r <= x) && (x <= 0)) && ((-r/2 <= y) && (y <= 0)));
-    const inCircle = ((x >= 0) && (y <= 0) && ((x*x + y*y) <= ((r/2)*(r/2))));
+    const inTriangle = ((x <= 0) && (y <= 0) && ((x+y) >= -r));
+    const inRectangle = (((0 <= x) && (x <= r)) && ((-r/2 <= y) && (y <= 0)));
+    const inCircle = ((x >= 0) && (y >= 0) && ((x*x + y*y) <= ((r/2)*(r/2))));
     return inTriangle || inRectangle || inCircle;
 }
 const resultsBody = document.querySelector('#results-body');
@@ -86,3 +82,51 @@ function addResultRow(x, y, r, hit, timestamp) {
     }
     resultsBody.prepend(row);
 }
+const canvas = document.querySelector("#plot");
+const ctx = canvas.getContext("2d");
+function drawPlot() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(200, 200);
+    ctx.lineTo(60, 200);
+    ctx.lineTo(200, 340);
+    ctx.closePath();
+    ctx.fillStyle = '#3399ff';
+    ctx.fill();
+    ctx.fillRect(200, 200, 140, 70);
+    ctx.beginPath();
+    ctx.moveTo(200, 200);
+    ctx.arc(200, 200, 70, -Math.PI/2, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(20, 200);
+    ctx.lineTo(380, 200);
+    ctx.moveTo(200, 380);
+    ctx.lineTo(200, 20);
+    ctx.strokeStyle = '#1f2937';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = 'black';
+    ctx.font = '14px Arial';
+    ctx.fillText("-R", 50, 190);
+    ctx.fillText("-R/2", 110, 190);
+    ctx.fillText("R/2", 260, 190);
+    ctx.fillText("R", 335, 190);
+    ctx.fillText("R", 210, 65);
+    ctx.fillText("R/2", 210, 135);
+    ctx.fillText("-R/2", 210, 275);
+    ctx.fillText("-R", 210, 345);
+    ctx.fillText("X", 380, 190);
+    ctx.fillText("Y", 210, 20);
+}
+function drawPoint(x, y, r, hit) {
+    const scale = 140 / r;
+    const pixelX = 200 + x * scale;
+    const pixelY = 200 - y * scale;
+    ctx.beginPath();
+    ctx.arc(pixelX, pixelY, 4, 0, 2 * Math.PI);
+    ctx.fillStyle = hit ? 'green' : 'red';
+    ctx.fill();
+}
+drawPlot();

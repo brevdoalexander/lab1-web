@@ -11,18 +11,27 @@
     <p>Бревдо Александр, P3212, Вариант 12686</p>
 </header>
 <main>
+    <section aria-labelledby="plot-title">
+        <h2 id="plot-title">Координатная плоскость</h2>
+        <canvas id="plot" width="400" height="400">
+             Область состоит из треугольника в первой четверти,
+             прямоугольник в третьей и четверти круга в четвертой.
+        </canvas>
+    </section>
     <form>
         <fieldset>
             <legend>Координата X</legend>
-            <button type="button" data-x="-4">-4</button>
-            <button type="button" data-x="-3">-3</button>
-            <button type="button" data-x="-2">-2</button>
-            <button type="button" data-x="-1">-1</button>
-            <button type="button" data-x="0">0</button>
-            <button type="button" data-x="1">1</button>
-            <button type="button" data-x="2">2</button>
-            <button type="button" data-x="3">3</button>
-            <button type="button" data-x="4">4</button>
+            <div class="x-options">
+                <label><input type="radio" name="x" value="-4" required> −4</label>
+                <label><input type="radio" name="x" value="-3" required> −3</label>
+                <label><input type="radio" name="x" value="-2" required> −2</label>
+                <label><input type="radio" name="x" value="-1" required> −1</label>
+                <label><input type="radio" name="x" value="0" required> 0</label>
+                <label><input type="radio" name="x" value="1" required> 1</label>
+                <label><input type="radio" name="x" value="2" required> 2</label>
+                <label><input type="radio" name="x" value="3" required> 3</label>
+                <label><input type="radio" name="x" value="4" required> 4</label>
+            </div>
         </fieldset>
         <fieldset>
             <legend>Радиус R</legend>
@@ -33,7 +42,7 @@
             <button type="button" data-r="5">5</button>
         </fieldset>
         <label for="y">Координата Y</label>
-        <p id="y-hint">Введите число больше -5 и меньше 5</p>
+        <p id="y-hint">Введите число больше -5 и меньше 3</p>
         <input aria-describedby="y-hint" type="text" id="y" name="y" required>
         <button type="submit">Проверить</button>
     </form>
