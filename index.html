@@ -37,6 +37,19 @@
         <input aria-describedby="y-hint" type="text" id="y" name="y" required>
         <button type="submit">Проверить</button>
     </form>
+    <table>
+        <caption>Результат проверок</caption>
+        <thead>
+           <tr>
+               <th scope="col">X</th>
+               <th scope="col">Y</th>
+               <th scope="col">R</th>
+               <th scope="col">Результат</th>
+               <th scope="col">Дата и время</th>
+           </tr>
+        </thead>
+        <tbody id="results-body"></tbody>
+    </table>
 </main>
 <script src="script.js"></script>
 </body>
